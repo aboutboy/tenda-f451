@@ -1075,9 +1075,9 @@ dev_nvram_exit(void)
 static void
 reset_clkfreq()
 {
-	nvram_set("clkfreq", "800,533");
-	nvram_commit();
-	kernel_restart(NULL);
+//	nvram_set("clkfreq", "800,533");
+//	nvram_commit();
+//	kernel_restart(NULL);
 }
 
 static void
