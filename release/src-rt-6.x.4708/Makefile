@@ -159,6 +159,12 @@ else
 	ctools/trx_asus -i image/linux-lzma.trx -r RT-AC56U,3.0.0.4,image/tomato-RT-AC56S-$(V1)$(V2)-$(current_BUILD_DESC)-NOSMP.trx
 endif
 endif
+
+# for tenda
+ifeq ($(ASUS_TRX),TENDA)
+	ctools/trx_asus -i image/linux-lzma.trx -r F451,3.0.0.4,image/tomato-F451-$(V1)$(V2)-$(current_BUILD_DESC)-NOSMP.trx
+endif
+
 # for dlink
 ifeq ($(ASUS_TRX),DLINK)
 	ctools/trx_asus -i image/linux-lzma.trx -r DIR868L,3.0.0.4,image/tomato-DIR868L-$(V1)$(V2)-$(current_BUILD_DESC).trx
@@ -974,11 +980,17 @@ endif
 e:
 	@$(MAKE) bin NTFS=y BBEXTRAS=y USBEXTRAS=y EBTABLES=y IPV6SUPP=y MEDIASRV=y MULTIWAN=y B=E BUILD_DESC="$(VPN)" CTF=y GRO=y USB="USB" PPTPD=y OPENVPN=y DNSSEC=y SNMP=y
 
+f:
+	@$(MAKE) bin EBTABLES=y IPV6SUPP=y B=f BUILD_DESC="$(VPN)" CTF=y USB=""
+
 o:
 	@$(MAKE) bin OPENVPN=y NTFS=y BBEXTRAS=y USBEXTRAS=y EBTABLES=y MEDIASRV=y IPV6SUPP=y MULTIWAN=y B=E BUILD_DESC="Custom" CTF=y GRO=y USB="USB" NOCAT=y BTCLIENT=y TR_EXTRAS=y DNSCRYPT=y PPTPD=y DNSSEC=y SNMP=y TINC=y TOR=y
 
 z:
 	@$(MAKE) bin OPENVPN=y NTFS=y BBEXTRAS=y USBEXTRAS=y EBTABLES=y MEDIASRV=y IPV6SUPP=y MULTIWAN=y B=E BUILD_DESC="AIO" CTF=y GRO=y USB="USB" NOCAT=y BTCLIENT=y TR_EXTRAS=y DNSCRYPT=y UPS=y PPTPD=y DNSSEC=y TINC=y SNMP=y RAID=y NFS=y NANO=y TOR=y NGINX=y
+
+f451f:
+	@$(MAKE) f ARM=y NVRAM_64K=y ARMCPUSMP="up" ASUS_TRX="TENDA"
 
 ac68e:
 	@$(MAKE) e ARM=y NVRAM_64K=y NAND=y BCMSMP=y ASUS_TRX="ASUS" TUXERA=y
@@ -1094,11 +1106,13 @@ setprofile:
 
 help:
 ifeq ($(CONFIG_LINUX26),y)
-	@echo "ASUS ARM Builds - RT-N18U, RT-AC56U, RT-AC68U, RT-AC68R, RT-AC68P"
+	@echo "ASUS ARM Builds - RT-N18U, RT-AC56U, RT-AC68U, RT-AC68R, RT-AC68P, F451"
 	@echo "ac68e         RT-N18U/AC56U/AC68U(R/P) build VPN"
 	@echo "ac68z         RT-N18U/AC56U/AC68U(R/P) build AIO"
 	@echo "n18e          RT-N18U/AC56S without SMP build VPN"
 	@echo "n18z          RT-N18U/AC56S without SMP build AIO"
+	@echo "TENDA ARM Builds"
+	@echo "f451f       TENDA F451"
 	@echo "DLINK ARM Builds"
 	@echo "dir868l       DLINK DIR868L"
 	@echo "NETGEAR ARM Builds"

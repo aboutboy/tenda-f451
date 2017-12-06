@@ -227,7 +227,7 @@ int check_hw_type(void)
 		if (nvram_match("boardrev", "0x1155")) return HW_BCM53572; //E900
 #endif
 #ifdef CONFIG_BCMWL6
-	case 0x0646:
+	case 0x0646: // F451
 	case 0x0665: //R7000,R1D
 	case 0xf646: //EA6700,WZR-1750, R6400
 	case 0xd646: //EA6900
@@ -376,6 +376,8 @@ int get_model(void)
 		if ((nvram_match("boardtype","0xF646")) && (nvram_match("boardnum", "01"))) return MODEL_EA6700;
 		if ((nvram_match("boardtype","0xF646")) && (nvram_match("boardnum", "00"))) return MODEL_WZR1750;
 		if ((nvram_match("boardtype","0xD646")) && (nvram_match("boardrev", "0x1100"))) return MODEL_EA6900;
+
+		if ((nvram_match("boardrev", "0x1100")) && (nvram_match("boardnum", "45"))) return MODEL_F451;		//tenda F451
 	}
 #endif
 	switch (strtoul(nvram_safe_get("boardnum"), NULL, 0)) {

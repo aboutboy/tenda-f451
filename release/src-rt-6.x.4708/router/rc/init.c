@@ -603,6 +603,10 @@ static int init_vlan_ports(void)
 		dirty |= check_nv("vlan1ports", "0 2 5*");
 		dirty |= check_nv("vlan2ports", "4 5");
 		break;
+	case MODEL_F451:
+		dirty |= check_nv("vlan1ports", "1 2 3 4 5*");
+		dirty |= check_nv("vlan2ports", "0 5");
+		break;
 #endif
 	
 	}
@@ -1406,6 +1410,31 @@ static int init_nvram(void)
 		}
 		break;
 #ifdef CONFIG_BCMWL6A
+	case MODEL_F451:
+		mfr = "Tenda";
+		name = "F451";
+		features = SUP_SES | SUP_80211N | SUP_1000ET;
+
+		if (!nvram_match("t_fix1", (char *)name)) {
+			nvram_set("vlan1hwname", "et0");
+			nvram_set("vlan2hwname", "et0");
+
+			nvram_set("landevs", "vlan1 wl0");
+			nvram_set("wandevs", "vlan2");
+
+			nvram_set("lan_ifname", "br0");
+			nvram_set("lan_ifnames", "vlan1 eth1");
+			nvram_set("wan_ifnames", "vlan2");
+			nvram_set("wan_ifnameX", "vlan2");
+			nvram_set("wl_ifnames", "eth1");
+			nvram_set("wl_ifname", "eth1");
+			nvram_set("wl0_ifname", "eth1");
+
+			// fix WL mac`s
+			nvram_set("wl0_hwaddr", nvram_safe_get("0:macaddr"));
+		}
+		break;
+
 	case MODEL_RTN18U:
 		mfr = "Asus";
 		name = "RT-N18U";
